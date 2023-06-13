@@ -4,6 +4,12 @@ import math
 
 class MyLinearRegression():
     def __init__(self,X_train,y_train) -> None:
+        """initilializa class with num features and training data
+
+        Args:
+            X_train (df): features to train
+            y_train (np.array): targets to train on
+        """
         self.X = X_train
         self.y = y_train
         self.num_features = self.X.shape[1]
@@ -12,6 +18,12 @@ class MyLinearRegression():
         self.final_theta = np.zeros([1, self.num_features])
 
     def fit(self,X_train,y_train):
+        """compute gradient descent
+
+        Args:
+            X_train (_type_): _description_
+            y_train (_type_): _description_
+        """
         self.final_theta, self.cost = gradientdescent(X_train, y_train,self.theta)
 
     def predict(self,X_test):
@@ -21,6 +33,18 @@ class MyLinearRegression():
 
 # Define computecost function
 def computecost(X, y, theta):
+    """cost function - desirable to be low in value
+    Mean Squared error and not mean absolute error
+
+    Args:
+        X (df): training features
+        y (np.array): target feature
+        theta (_type_): feature vector coeffs
+
+    Returns:
+        float: cost value
+    """
+    #
     H = X @ theta.T
     J = np.power((H - y), 2)
     sum = np.sum(J)/(2 * len(X))
@@ -28,6 +52,18 @@ def computecost(X, y, theta):
 
 # Define gradientdescent function
 def gradientdescent(X, y, theta, iterations=1000, alpha=0.01):
+    """_summary_
+
+    Args:
+        X (df): features to train
+        y (np.array): target to train on
+        theta (_type_): initial feature vector coeffs
+        iterations (int, optional): num iterations. Defaults to 1000.
+        alpha (float, optional): learning rate. Defaults to 0.01.
+
+    Returns:
+        _type_: feature vector coeffs and cost at each iteration
+    """
     cost = np.zeros(iterations)
     for i in range(iterations):
         H = X @ theta.T
@@ -44,7 +80,16 @@ def gradientdescent(X, y, theta, iterations=1000, alpha=0.01):
     return theta, cost
 
 def metrics(predictions, Y_test):
+    """_summary_
 
+    Args:
+        predictions (np.array): predicted values
+        Y_test (np.array): target values
+
+    Returns:
+        float: mae, mse, rmse, and
+        rsquare error:- R-squared is a statistical measure that indicates how much of the variation of a dependent variable is explained by an independent variable in a regression model.
+    """
     #calculating mean absolute error
     MAE = np.mean(np.abs(predictions-Y_test))
 
